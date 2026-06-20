@@ -322,3 +322,98 @@ def ver_mascotas():
         print(f"Propietario: {m[5]}")
         print(f"DNI: {m[6]}")
         print("----------------------")
+        
+# BUSCAR MASCOTA POR NOMBRE O DNI
+def buscar_mascota():
+
+    print("""
+1. Buscar por nombre
+2. Buscar por DNI
+""")
+
+    opcion = input("Opcion: ").strip()
+
+
+    # BUSCAR POR NOMBRE
+    if opcion == "1":
+
+        nombre = input("Nombre a buscar: ").strip()
+
+        if not nombre:
+            print("Debe ingresar un nombre")
+            return
+
+        # SOLO LETRAS Y ESPACIOS
+        if not nombre.replace(" ", "").isalpha():
+            print("Ingrese solo letras")
+            return
+
+
+        cursor.execute("""
+            SELECT * FROM mascotas
+            WHERE nombre LIKE ?
+        """, (f"%{nombre}%",))
+
+        resultados = cursor.fetchall()
+
+        if not resultados:
+            print("No se encontraron mascotas")
+            return
+
+
+        print("\nMASCOTAS ENCONTRADAS\n")
+
+        for r in resultados:
+
+            print(f"ID: {r[0]}")
+            print(f"Nombre: {r[1]}")
+            print(f"Especie: {r[2]}")
+            print(f"Raza: {r[3]}")
+            print(f"Edad: {r[4]}")
+            print(f"Propietario: {r[5]}")
+            print(f"DNI: {r[6]}")
+            print("----------------------")
+
+
+    # BUSCAR POR DNI
+    elif opcion == "2":
+
+        dni = input("DNI del propietario: ").strip()
+
+        if not dni.isdigit():
+            print("El DNI solo debe contener numeros")
+            return
+
+        if len(dni) < 8 or len(dni) > 9:
+            print("El DNI debe tener entre 8 y 9 digitos")
+            return
+
+
+        cursor.execute("""
+            SELECT * FROM mascotas
+            WHERE dni = ?
+        """, (dni,))
+
+        resultados = cursor.fetchall()
+
+        if not resultados:
+            print("No se encontraron mascotas")
+            return
+
+
+        print("\nMASCOTAS ENCONTRADAS\n")
+
+        for r in resultados:
+
+            print(f"ID: {r[0]}")
+            print(f"Nombre: {r[1]}")
+            print(f"Especie: {r[2]}")
+            print(f"Raza: {r[3]}")
+            print(f"Edad: {r[4]}")
+            print(f"Propietario: {r[5]}")
+            print(f"DNI: {r[6]}")
+            print("----------------------")
+
+
+    else:
+        print("Opcion invalida")
