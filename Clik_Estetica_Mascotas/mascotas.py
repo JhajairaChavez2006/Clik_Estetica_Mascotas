@@ -294,3 +294,31 @@ def registrar_mascota():
     conn.commit()
 
     print("Mascota registrada correctamente")
+    
+# VER MASCOTAS ORDENADAS ALFABETICAMENTE
+def ver_mascotas():
+
+    cursor.execute("""
+        SELECT * FROM mascotas
+        ORDER BY nombre COLLATE NOCASE ASC
+    """)
+
+    mascotas = cursor.fetchall()
+
+    if not mascotas:
+        print("No hay mascotas registradas")
+        return
+
+
+    print("\nLISTA DE MASCOTAS\n")
+
+    for m in mascotas:
+
+        print(f"ID: {m[0]}")
+        print(f"Nombre: {m[1]}")
+        print(f"Especie: {m[2]}")
+        print(f"Raza: {m[3]}")
+        print(f"Edad: {m[4]}")
+        print(f"Propietario: {m[5]}")
+        print(f"DNI: {m[6]}")
+        print("----------------------")
