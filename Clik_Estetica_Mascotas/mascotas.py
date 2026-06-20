@@ -621,3 +621,31 @@ Seleccione una raza:
     conn.commit()
 
     print("Mascota actualizada correctamente")
+    
+# ELIMINAR MASCOTA
+def eliminar_mascota():
+
+    try:
+        id_m = int(input("ID de mascota a eliminar: "))
+
+    except ValueError:
+        print("ID invalido")
+        return
+
+    cursor.execute("SELECT * FROM mascotas WHERE id=?", (id_m,))
+
+    if cursor.fetchone() is None:
+        print("No existe esa mascota")
+        return
+
+    confirmar = input("¿Eliminar mascota? (s/n): ").lower()
+
+    if confirmar != "s":
+        print("Operacion cancelada")
+        return
+
+    cursor.execute("DELETE FROM mascotas WHERE id=?", (id_m,))
+
+    conn.commit()
+
+    print("Mascota eliminada")
